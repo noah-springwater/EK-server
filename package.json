@@ -1,0 +1,29 @@
+{
+  "name": "ek-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "canvas": "^1.3.15",
+    "express": "^4.13.4",
+    "http": "0.0.0",
+    "jquery": "^2.2.3",
+    "nodemon": "^1.9.2",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "^1.4.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noah-springwater/ek-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noah-springwater/ek-server/issues"
+  },
+  "homepage": "https://github.com/noah-springwater/ek-server#readme"
+}
