@@ -7,6 +7,7 @@ var socket = require('socket.io-client')('http://localhost:55555');
 var Canvas = require('canvas');
 var fs = require('fs');
 var _ = require('lodash');
+var ffmpeg = require('fluent-ffmpeg');
 
 IMAGES = {
   ARENAS: [],
