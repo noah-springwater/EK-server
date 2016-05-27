@@ -111,7 +111,7 @@ initialize(function() {
         canvas.toDataURL('image/jpeg', 1, function(error, base64JPEG) {
           var jpeg = base64JPEG.replace(/^data:image\/jpeg;base64,/, "");
           var timestamp = new Date().toISOString();
-            fs.writeFile(__dirname + '/exports/' + timestamp + '.jpeg',
+            fs.writeFile(__dirname + '/frames/' + timestamp + '.jpeg',
             jpeg, 'base64', function(error) {
               if(error)
               console.dir(error);
@@ -135,7 +135,7 @@ initialize(function() {
       .on('end', function() {
         console.log('End');
       })
-      .save('imports/hello.mp4')
+      .save('exports/hello.mp4')
     }
   });
 });
