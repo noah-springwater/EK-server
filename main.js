@@ -104,6 +104,8 @@ initialize(function() {
       if(fighter.life === 0)
         gameOver = true;
     }
+
+
     if(!gameOver) {
       setTimeout(function() {
         canvas.toDataURL('image/jpeg', 1, function(error, base64JPEG) {
@@ -114,24 +116,27 @@ initialize(function() {
               if(error)
               console.dir(error);
               else {
-                listOfTimestamps.push(timestamp)
+                listOfTimestamps.push(timestamp);
+
               }
             });
-
         });
       }, 1000);
+    } else {
+      ffmpeg()
+      .input('exports/*.jpeg')
+      .fps(24)
+      .inputOptions('-pattern_type glob')
+      .videoCodec('mjpeg')
+      .videoCodec('libx264')
+      .on('error', function(error) {
+        console.dir(error);
+      })
+      .on('end', function() {
+        console.log('End');
+      })
+      .save('imports/hello.mp4')
     }
-    // var vid = ffmpeg({source: __dirname + '/exports' + ''})
-    // .fps(10)
-    // .on('end', function () {
-    //   console.log('file converted');
-    // })
-    // .on('error', function (err) {
-    //   console.log('an error happened: ' + err.message);
-    // })
-    // .save('imports/video.m4v')
-    // .run()
-
   });
 });
 
