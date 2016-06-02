@@ -91,7 +91,28 @@ initialize(function() {
   canvas.patternQuality = 'fast';
   canvas.filter = 'fast';
   var context = canvas.getContext('2d');
-  var listOfTimestamps = [];
+  var handleArray = [];
+
+  socket.on('init', function(data) {
+    for(var i=0; i<data.fighters.length; i++) {
+      var fighter = data.fighters[i];
+      var handle = fighter.handle;
+      var actions = fighter.actions;
+
+      handleArray.push(handle)
+
+      // $('#player' + (i+1) + '-name').html(handle);
+      // $('#player' + (i+1) + '-handle').html(handle);
+      // $('#player' + (i+1) + '-name-desk').html(handle);
+
+    }
+    console.log(handle);
+
+    console.log(canvas);
+    console.log(context);
+
+  });
+
   socket.on('state', function(state) {
     context.drawImage(IMAGES.ARENAS[state.arena], 0, 0, canvas.width, canvas.height);
 
@@ -100,6 +121,19 @@ initialize(function() {
       var fighter = state.fighters[i];
 
       context.drawImage(IMAGES.FIGHTER_STATES[fighter.state], fighter.x, fighter.y);
+
+      for (var i; i<handleArray.length; i++) {
+        context.fillStyle = "white";
+        context.font = "15px Arial"
+
+        if (handleArray[i] = '@kanyewest') {
+          context.fillText(handleArray[i], 10, 20);
+        }
+
+        if (handleArray[i] = '@realdonaldtrump') {
+          context.fillText(handleArray[i], 450, 20);
+        }
+      }
 
       if(fighter.life === 0)
         gameOver = true;
@@ -111,32 +145,31 @@ initialize(function() {
         canvas.toDataURL('image/jpeg', 1, function(error, base64JPEG) {
           var jpeg = base64JPEG.replace(/^data:image\/jpeg;base64,/, "");
           var timestamp = new Date().toISOString();
-            fs.writeFile(__dirname + '/frames/' + timestamp + '.jpeg',
+            fs.writeFile(__dirname + '/exports/' + timestamp + '.jpeg',
             jpeg, 'base64', function(error) {
               if(error)
               console.dir(error);
-              else {
-                listOfTimestamps.push(timestamp);
-
-              }
             });
         });
       }, 1000);
-    } else {
-      ffmpeg()
-      .input('exports/*.jpeg')
-      .fps(24)
-      .inputOptions('-pattern_type glob')
-      .videoCodec('mjpeg')
-      .videoCodec('libx264')
-      .on('error', function(error) {
-        console.dir(error);
-      })
-      .on('end', function() {
-        console.log('End');
-      })
-      .save('exports/hello.mp4')
     }
+
+
+    // else {
+    //   ffmpeg()
+    //   .input('exports/*.jpeg')
+    //   .fps(24)
+    //   .inputOptions('-pattern_type glob')
+    //   .videoCodec('mjpeg')
+    //   .videoCodec('libx264')
+    //   .on('error', function(error) {
+    //     console.dir(error);
+    //   })
+    //   .on('end', function() {
+    //     console.log('End');
+    //   })
+    //   .save('exports/hello.mp4')
+    // }
   });
 });
 
