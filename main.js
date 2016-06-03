@@ -11,7 +11,8 @@ var ffmpeg = require('fluent-ffmpeg');
 
 IMAGES = {
   ARENAS: [],
-  FIGHTER_STATES: {}
+  FIGHTER_STATES: {},
+  UI: []
 };
 
 function initialize(callback) {
@@ -68,6 +69,7 @@ function initialize(callback) {
     arenaImage.src = 'images/arenas/' + i + '/arena.png';
     IMAGES.ARENAS[i] = arenaImage;
   }
+  // console.log(arenaImage);
 
   fighters.forEach(function(fighter) {
     Object.keys(sprites).forEach(function(sprite) {
@@ -78,11 +80,19 @@ function initialize(callback) {
           fighterImage.onload = onAssetLoad;
           fighterImage.src = fighterSpriteSrc;
           IMAGES.FIGHTER_STATES[fighterSpriteSrc] = fighterImage;
+          // console.log(fighterImage);
         }
       });
     });
   });
+
+    var tickImage = new Canvas.Image;
+    tickImage.onload = onAssetLoad;
+    tickImage.src = 'images/ui/verified_tick.png';
+    // IMAGES.UI.push(tickImage);
+    // console.log(IMAGES.UI[0]);
 }
+// console.log(IMAGES.UI[0]);
 
 initialize(function() {
   var canvas = new Canvas();
@@ -93,24 +103,21 @@ initialize(function() {
   var context = canvas.getContext('2d');
   var handleArray = [];
 
+
   socket.on('init', function(data) {
     for(var i=0; i<data.fighters.length; i++) {
       var fighter = data.fighters[i];
       var handle = fighter.handle;
       var actions = fighter.actions;
 
-      handleArray.push(handle)
+      handleArray.push(fighter.handle)
+      console.log(handleArray);
 
       // $('#player' + (i+1) + '-name').html(handle);
       // $('#player' + (i+1) + '-handle').html(handle);
       // $('#player' + (i+1) + '-name-desk').html(handle);
 
     }
-    console.log(handle);
-
-    console.log(canvas);
-    console.log(context);
-
   });
 
   socket.on('state', function(state) {
@@ -122,22 +129,35 @@ initialize(function() {
 
       context.drawImage(IMAGES.FIGHTER_STATES[fighter.state], fighter.x, fighter.y);
 
-      for (var i; i<handleArray.length; i++) {
-        context.fillStyle = "white";
-        context.font = "15px Arial"
-
-        if (handleArray[i] = '@kanyewest') {
-          context.fillText(handleArray[i], 10, 20);
-        }
-
-        if (handleArray[i] = '@realdonaldtrump') {
-          context.fillText(handleArray[i], 450, 20);
-        }
-      }
 
       if(fighter.life === 0)
         gameOver = true;
     }
+
+    var tickImage = new Canvas.Image;
+    tickImage.src = 'images/ui/verified_tick.png';
+    for (var i; i<handleArray.length; i++) {
+      context.fillStyle = "white";
+      context.font = "20px Arial"
+
+    }
+    if (handleArray[i] = '@kanyewest') {
+      context.fillText(handleArray[i], 35, 35);
+      context.drawImage(tickImage, 165, 17);
+    }
+
+    if (handleArray[i] = '@realdonaldtrump') {
+      context.fillText(handleArray[i], 380, 35);
+      context.drawImage(tickImage, 560, 17);
+      context.beginPath();
+      context.arc(80, 40, 10, 0, 2*Math.PI);
+      //context.arc (x, y)
+      context.stroke();
+      console.log(fighter.life);
+    }
+
+
+    // console.log(fighter.life);
 
 
     if(!gameOver) {
