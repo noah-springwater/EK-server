@@ -111,7 +111,7 @@ initialize(function() {
       var actions = fighter.actions;
 
       handleArray.push(fighter.handle)
-      console.log(handleArray);
+      // console.log(handleArray);
 
       // $('#player' + (i+1) + '-name').html(handle);
       // $('#player' + (i+1) + '-handle').html(handle);
@@ -121,6 +121,7 @@ initialize(function() {
   });
 
   socket.on('state', function(state) {
+
     context.drawImage(IMAGES.ARENAS[state.arena], 0, 0, canvas.width, canvas.height);
 
     var gameOver = false;
@@ -136,25 +137,56 @@ initialize(function() {
 
     var tickImage = new Canvas.Image;
     tickImage.src = 'images/ui/verified_tick.png';
-    for (var i; i<handleArray.length; i++) {
-      context.fillStyle = "white";
-      context.font = "20px Arial"
 
-    }
-    if (handleArray[i] = '@kanyewest') {
-      context.fillText(handleArray[i], 35, 35);
-      context.drawImage(tickImage, 165, 17);
-    }
+    for (var i; i<handleArray.length; i++)
 
-    if (handleArray[i] = '@realdonaldtrump') {
-      context.fillText(handleArray[i], 380, 35);
-      context.drawImage(tickImage, 560, 17);
-      context.beginPath();
-      context.arc(80, 40, 10, 0, 2*Math.PI);
-      //context.arc (x, y)
-      context.stroke();
-      console.log(fighter.life);
-    }
+      var playerOneLife = state.fighters[0].life;
+      var playerTwoLife = state.fighters[1].life;
+
+      console.log(playerOneLife);
+      console.log(playerTwoLife);
+
+      if (handleArray[i] = '@kanyewest') {
+        context.beginPath();
+        context.fillStyle = "white";
+        context.font = "bold 16px Arial";
+        context.fillText(handleArray[i], 15, 25);
+        context.drawImage(tickImage, 125, 10);
+
+        context.beginPath();
+        // console.log(state.fighters[0].life);
+        // console.log(state.fighters[1].life);
+        context.rect(15, 40, (275*playerOneLife)/100, 10);
+        context.lineJoin = "round";
+        context.lineWidth = 3;
+        context.strokeStyle = "white";
+        context.fillStyle = "#ed1d57";
+        context.stroke();
+        context.fill();
+
+      }
+
+      if (handleArray[i] = '@realdonaldtrump') {
+        context.beginPath();  // path commands must begin with beginPath
+        context.fillStyle = "white";
+        context.font = "bold 16px Arial";
+        context.fillText(handleArray[i], 410, 25);
+        context.drawImage(tickImage, 563, 10);
+
+        context.beginPath();
+        context.rect(585, 40, -(275*playerTwoLife)/100, 10);
+        context.lineJoin = "round";
+        context.lineWidth = 3;
+        context.strokeStyle = "white";
+        context.fillStyle = "#ed1d57";
+        context.stroke();
+        context.fill();
+        //
+        // context.fillStyle = "red";
+        //
+        // context.fill(); //end with fill()
+        //width *(life/100)
+      }
 
 
     // console.log(fighter.life);
