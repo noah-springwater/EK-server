@@ -12,7 +12,6 @@ var ffmpeg = require('fluent-ffmpeg');
 IMAGES = {
   ARENAS: [],
   FIGHTER_STATES: {},
-  UI: []
 };
 
 function initialize(callback) {
@@ -69,7 +68,6 @@ function initialize(callback) {
     arenaImage.src = 'images/arenas/' + i + '/arena.png';
     IMAGES.ARENAS[i] = arenaImage;
   }
-  // console.log(arenaImage);
 
   fighters.forEach(function(fighter) {
     Object.keys(sprites).forEach(function(sprite) {
@@ -80,7 +78,6 @@ function initialize(callback) {
           fighterImage.onload = onAssetLoad;
           fighterImage.src = fighterSpriteSrc;
           IMAGES.FIGHTER_STATES[fighterSpriteSrc] = fighterImage;
-          // console.log(fighterImage);
         }
       });
     });
@@ -89,10 +86,8 @@ function initialize(callback) {
     var tickImage = new Canvas.Image;
     tickImage.onload = onAssetLoad;
     tickImage.src = 'images/ui/verified_tick.png';
-    // IMAGES.UI.push(tickImage);
-    // console.log(IMAGES.UI[0]);
 }
-// console.log(IMAGES.UI[0]);
+
 
 initialize(function() {
   var canvas = new Canvas();
@@ -111,13 +106,8 @@ initialize(function() {
       var actions = fighter.actions;
 
       handleArray.push(fighter.handle)
-      // console.log(handleArray);
-
-      // $('#player' + (i+1) + '-name').html(handle);
-      // $('#player' + (i+1) + '-handle').html(handle);
-      // $('#player' + (i+1) + '-name-desk').html(handle);
-
     }
+    console.log(handleArray);
   });
 
   socket.on('state', function(state) {
@@ -139,24 +129,19 @@ initialize(function() {
     tickImage.src = 'images/ui/verified_tick.png';
 
     for (var i; i<handleArray.length; i++)
-
+      console.log(handleArray[0]);
       var playerOneLife = state.fighters[0].life;
       var playerTwoLife = state.fighters[1].life;
 
-      console.log(playerOneLife);
-      console.log(playerTwoLife);
-
-      if (handleArray[i] = '@kanyewest') {
-        context.beginPath();
+//player1 draw info
+        context.beginPath(); // path commands must begin with beginPath
         context.fillStyle = "white";
         context.font = "bold 16px Arial";
-        context.fillText(handleArray[i], 15, 25);
-        context.drawImage(tickImage, 125, 10);
+        context.fillText(handleArray[0], 22, 25); //text, x, y
+        context.drawImage(tickImage, 125, 10); //image, x, y
 
         context.beginPath();
-        // console.log(state.fighters[0].life);
-        // console.log(state.fighters[1].life);
-        context.rect(15, 40, (275*playerOneLife)/100, 10);
+        context.rect(25, 40, (267*playerOneLife)/100, 10); //x, y, width, height
         context.lineJoin = "round";
         context.lineWidth = 3;
         context.strokeStyle = "white";
@@ -164,33 +149,21 @@ initialize(function() {
         context.stroke();
         context.fill();
 
-      }
-
-      if (handleArray[i] = '@realdonaldtrump') {
-        context.beginPath();  // path commands must begin with beginPath
+//player2 draw info
+        context.beginPath();
         context.fillStyle = "white";
         context.font = "bold 16px Arial";
-        context.fillText(handleArray[i], 410, 25);
-        context.drawImage(tickImage, 563, 10);
+        context.fillText(handleArray[1], 407, 25);
+        context.drawImage(tickImage, 555, 10);
 
         context.beginPath();
-        context.rect(585, 40, -(275*playerTwoLife)/100, 10);
+        context.rect(575, 40, -(267*playerTwoLife)/100, 10);
         context.lineJoin = "round";
         context.lineWidth = 3;
         context.strokeStyle = "white";
         context.fillStyle = "#ed1d57";
         context.stroke();
         context.fill();
-        //
-        // context.fillStyle = "red";
-        //
-        // context.fill(); //end with fill()
-        //width *(life/100)
-      }
-
-
-    // console.log(fighter.life);
-
 
     if(!gameOver) {
       setTimeout(function() {
@@ -227,8 +200,4 @@ initialize(function() {
 
 server.listen(port, function() {
   console.log('Server listening on port', port);
-})
-
-app.get('/', function(req, res) {
-  res.send('whaddup server')
 })
