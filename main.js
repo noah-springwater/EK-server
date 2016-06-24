@@ -12,7 +12,7 @@ var ffmpeg = require('fluent-ffmpeg');
 IMAGES = {
   ARENAS: [],
   FIGHTER_STATES: {}
-};
+};  
 
 function initialize(callback) {
   var arenas = 4;
